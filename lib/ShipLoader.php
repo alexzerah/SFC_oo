@@ -2,6 +2,8 @@
 
 class ShipLoader
 {
+    private $pdo;
+
     /**
      * @return Ship[]
      */
@@ -23,9 +25,7 @@ class ShipLoader
      */
     public function findOneById($id)
     {
-        $config = require 'config.php';
-        $pdo = new PDO($config['database_dsn'], $config['database_user'], $config['database_pass']);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = $this->getPDO();
         $statement = $pdo->prepare('SELECT * FROM ship WHERE id = :id');
         $statement->execute(['id' => $id]);
         $shipArray = $statement->fetch(PDO::FETCH_ASSOC);
@@ -53,11 +53,25 @@ class ShipLoader
      */
     private function queryForShips()
     {
-        $config = require 'config.php';
-        $pdo = new PDO($config['database_dsn'], $config['database_user'], $config['database_pass']);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = $this->getPDO();
         $statement = $pdo->prepare('SELECT * FROM ship');
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @return PDO
+     */
+    private function getPDO()
+    {
+        if ($this->pdo === null) {
+            $config = $config = require 'config.php';
+            $pdo = new PDO($config['database_dsn'], $config['database_user'], $config['database_pass']);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $this->pdo = $pdo;
+        }
+
+        return $this->pdo;
     }
 }
