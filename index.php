@@ -1,8 +1,10 @@
 <?php
 require __DIR__ . '/bootstrap.php';
 
-$shipLoader = new ShipLoader();
+$container = new Container($configuration);
+$shipLoader = $container->getShipLoader();
 $ships = $shipLoader->get_ships();
+
 $errorMessage = '';
 if (isset($_GET['error'])) {
     switch ($_GET['error']) {

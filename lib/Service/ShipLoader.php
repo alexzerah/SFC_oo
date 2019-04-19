@@ -4,6 +4,11 @@ class ShipLoader
 {
     private $pdo;
 
+    public function __construct($pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
     /**
      * @return Ship[]
      */
@@ -49,7 +54,7 @@ class ShipLoader
     }
 
     /**
-     * @return Ship[]
+     * @return array
      */
     private function queryForShips()
     {
@@ -64,14 +69,6 @@ class ShipLoader
      */
     private function getPDO()
     {
-        if ($this->pdo === null) {
-            $config = $config = require 'config.php';
-            $pdo = new PDO($config['database_dsn'], $config['database_user'], $config['database_pass']);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $this->pdo = $pdo;
-        }
-
         return $this->pdo;
     }
 }
