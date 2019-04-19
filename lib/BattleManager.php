@@ -50,7 +50,7 @@ class BattleManager
             $usedJediPowers = $ship1UsedJediPowers;
         }
 
-        $battleResult = new BattleResult($winningShip, $losingShip, $usedJediPowers);
+        $battleResult = new BattleResult($usedJediPowers, $winningShip, $losingShip);
         return $battleResult;
     }
 
