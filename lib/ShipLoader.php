@@ -17,6 +17,10 @@ class ShipLoader
         return $ships;
     }
 
+    /**
+     * @param $id
+     * @return Ship|null
+     */
     public function findOneById($id)
     {
         $config = require 'config.php';
@@ -29,6 +33,10 @@ class ShipLoader
         return $this->createShipFromData($shipArray);
     }
 
+    /**
+     * @param array $shipData
+     * @return Ship
+     */
     private function createShipFromData(array $shipData)
     {
         $ship = new Ship($shipData['name']);
@@ -40,6 +48,9 @@ class ShipLoader
         return $ship;
     }
 
+    /**
+     * @return Ship[]
+     */
     private function queryForShips()
     {
         $config = require 'config.php';
