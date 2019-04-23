@@ -3,7 +3,7 @@ require __DIR__ . '/bootstrap.php';
 
 $container = new Container($configuration);
 $shipLoader = $container->getShipLoader();
-$ships = $shipLoader->get_ships();
+$ships = $shipLoader->getships();
 
 $errorMessage = '';
 if (isset($_GET['error'])) {
