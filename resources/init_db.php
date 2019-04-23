@@ -1,11 +1,13 @@
 <?php
 
+$config = require 'lib/config.php';
+
 /*
  * SETTINGS!
  */
 $databaseName = 'oo_battle';
 $databaseUser = 'root';
-$databasePassword = '';
+$databasePassword = $config['database_pass'];
 
 /*
  * CREATE THE DATABASE

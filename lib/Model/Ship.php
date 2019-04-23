@@ -1,68 +1,16 @@
 <?php
 
 
-class Ship
+class Ship extends AbstractShip
 {
-    private $id;
     private $jediFactor = 0;
-    private $name;
-    private $strength = 0;
-    private $weaponPower = 0;
     private $underRepair;
 
     public function __construct($name)
     {
-        $this->name = $name;
+        parent::__construct($name);
         $this->underRepair = mt_rand(1, 100) < 30;
     }
-
-    public function sayHello()
-    {
-        echo 'Hello!';
-    }
-
-    public function getNameAndSpecs($useShortFormat = false)
-    {
-        if($useShortFormat){
-            return sprintf(
-                '%s: %s/%s/%s',
-                $this->name,
-                $this->weaponPower,
-                $this->jediFactor,
-                $this->strength
-            );
-        } else {
-        return sprintf(
-            '%s: w:%s, j:%s, s:%s',
-            $this->name,
-            $this->weaponPower,
-            $this->jediFactor,
-            $this->strength
-        );
-    }
-    }
-
-    public function isFunctional()
-    {
-        return !$this->underRepair;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param integer $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
 
 
     /**
@@ -81,52 +29,13 @@ class Ship
         $this->jediFactor = $jediFactor;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function isFunctional()
     {
-        return $this->name;
+        return !$this->underRepair;
     }
 
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
+    public function getType()
     {
-        $this->name = $name;
+        return 'Empire';
     }
-
-    /**
-     * @return mixed
-     */
-    public function getStrength()
-    {
-        return $this->strength;
-    }
-
-    /**
-     * @param mixed $strength
-     */
-    public function setStrength($strength)
-    {
-        $this->strength = $strength;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWeaponPower()
-    {
-        return $this->weaponPower;
-    }
-
-    /**
-     * @param mixed $weaponPower
-     */
-    public function setWeaponPower($weaponPower)
-    {
-        $this->weaponPower = $weaponPower;
-    }
-
 }

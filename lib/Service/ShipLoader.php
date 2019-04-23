@@ -2,19 +2,19 @@
 
 class ShipLoader
 {
-    private $pdo;
+    private $shipStorage;
 
-    public function __construct($pdo)
+    public function __construct(ShipStorageInterface $shipStorage)
     {
-        $this->pdo = $pdo;
+        $this->shipStorage = $shipStorage;
     }
 
     /**
-     * @return Ship[]
+     * @return AbstractShip[]
      */
-    public function get_ships()
+    public function getShips()
     {
-       $shipsData = $this->queryForShips();
+       $shipsData = $this->shipStorage->fetchAllShipsData();
 
         $ships = [];
         foreach ($shipsData as $shipData) {
@@ -26,49 +26,31 @@ class ShipLoader
 
     /**
      * @param $id
-     * @return Ship|null
+     * @return AbstractShip|null
      */
     public function findOneById($id)
     {
-        $pdo = $this->getPDO();
-        $statement = $pdo->prepare('SELECT * FROM ship WHERE id = :id');
-        $statement->execute(['id' => $id]);
-        $shipArray = $statement->fetch(PDO::FETCH_ASSOC);
+        $shipArray = $this->shipStorage->fetchSingleShipData($id);
 
         return $this->createShipFromData($shipArray);
     }
 
     /**
      * @param array $shipData
-     * @return Ship
+     * @return AbstractShip
      */
     private function createShipFromData(array $shipData)
     {
-        $ship = new Ship($shipData['name']);
+        if ($shipData['team'] == 'rebel') {
+            $ship = new RebelShip($shipData['name']);
+        } else {
+            $ship = new Ship($shipData['name']);
+        }
+
         $ship->setId($shipData['id']);
         $ship->setWeaponPower($shipData['weapon_power']);
-        $ship->setJediFactor($shipData['jedi_factor']);
         $ship->setStrength($shipData['strength']);
 
         return $ship;
-    }
-
-    /**
-     * @return array
-     */
-    private function queryForShips()
-    {
-        $pdo = $this->getPDO();
-        $statement = $pdo->prepare('SELECT * FROM ship');
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @return PDO
-     */
-    private function getPDO()
-    {
-        return $this->pdo;
     }
 }

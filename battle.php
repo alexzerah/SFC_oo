@@ -3,7 +3,7 @@ require __DIR__ . '/bootstrap.php';
 
 $container = new Container($configuration);
 $shipLoader = $container->getShipLoader();
-$ships = $shipLoader->get_ships();
+$ships = $shipLoader->getShips();
 
 $ship1Id = isset($_POST['ship1_id']) ? $_POST['ship1_id'] : null;
 $ship1Quantity = isset($_POST['ship1_quantity']) ? $_POST['ship1_quantity'] : 1;
