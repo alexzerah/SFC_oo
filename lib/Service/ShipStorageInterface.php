@@ -1,5 +1,6 @@
 <?php
 
+namespace Service;
 
 Interface ShipStorageInterface
 {
@@ -12,7 +13,7 @@ Interface ShipStorageInterface
 
     /**
      * @param integer $id
-     * @return array()
+     * @return array()o
      */
     public function fetchSingleShipData($id);
 }
