@@ -4,7 +4,7 @@ namespace Service;
 
 use \PDO;
 
-class PdoShipStorage implements ShipStorageInterface
+class PDOShipStorage implements ShipStorageInterface
 {
     private $pdo;
 

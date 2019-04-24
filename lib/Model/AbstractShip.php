@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use \Exception;
+
 abstract class AbstractShip
 {
     private $id;
@@ -89,6 +91,10 @@ abstract class AbstractShip
      */
     public function setStrength($strength)
     {
+        if (!is_numeric($strength)) {
+            throw new Exception('invalid strength passed '. $strength);
+        }
+
         $this->strength = $strength;
     }
 
@@ -107,4 +113,11 @@ abstract class AbstractShip
     {
         $this->weaponPower = $weaponPower;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }

@@ -10,6 +10,8 @@ $container = new Container($configuration);
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getships();
 
+$ships->removeAllBrokenShips();
+
 //$brokenShip = new BrokenShip('I am so broken');
 //$ships[] = $brokenShip;
 

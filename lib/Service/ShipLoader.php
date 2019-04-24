@@ -5,6 +5,7 @@ namespace Service;
 use Model\RebelShip;
 use Model\Ship;
 use Model\AbstractShip;
+use Model\ShipCollection;
 
 class ShipLoader
 {
@@ -16,18 +17,19 @@ class ShipLoader
     }
 
     /**
-     * @return AbstractShip[]
+     * @return ShipCollection
      */
     public function getShips()
     {
-       $shipsData = $this->shipStorage->fetchAllShipsData();
-
         $ships = [];
+
+        $shipsData = $this->queryForShips();
+
         foreach ($shipsData as $shipData) {
             $ships[] = $this->createShipFromData($shipData);
         }
 
-        return $ships;
+        return new ShipCollection($ships);
     }
 
     /**
@@ -41,16 +43,13 @@ class ShipLoader
         return $this->createShipFromData($shipArray);
     }
 
-    /**
-     * @param array $shipData
-     * @return AbstractShip
-     */
     private function createShipFromData(array $shipData)
     {
         if ($shipData['team'] == 'rebel') {
             $ship = new RebelShip($shipData['name']);
         } else {
             $ship = new Ship($shipData['name']);
+            $ship->setJediFactor($shipData['jedi_factor']);
         }
 
         $ship->setId($shipData['id']);
@@ -58,5 +57,16 @@ class ShipLoader
         $ship->setStrength($shipData['strength']);
 
         return $ship;
+    }
+
+    private function queryForShips()
+    {
+        try {
+            return $this->shipStorage->fetchAllShipsData();
+        } catch (\PDOException $e) {
+            trigger_error('Exception! '.$e->getMessage());
+            // if all else fails, just return an empty array
+            return [];
+        }
     }
 }
